@@ -12,4 +12,7 @@ def create_app():
     def hello():
         return 'Hello, World!'
 
+    from . import summarize
+    app.register_blueprint(summarize.bp)
+
     return app
