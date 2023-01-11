@@ -1,18 +1,7 @@
-import os
-
 from flask import Flask
 
+# create and configure the app
+app = Flask(__name__)
 
-def create_app():
-    # create and configure the app
-    app = Flask(__name__)
-
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
-
-    from . import summarize
-    app.register_blueprint(summarize.bp)
-
-    return app
+from . import summarize
+app.register_blueprint(summarize.bp)
