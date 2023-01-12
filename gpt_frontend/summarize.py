@@ -31,7 +31,7 @@ def summarize_text():
 @bp.route('/api/summarize_video', methods=['POST'])
 def summarize_video():
     video_url = request.form["video_url"]
-    video_id = (video_url.split('=')[1]).split("&")[0]
+    video_id = extract_youtube_video_id(video_url)
     transcript = YouTubeTranscriptApi.get_transcript(video_id)
     transcript_plain_text = " ".join(item["text"] for item in transcript)
     logging.debug("received transcript: {}".format(transcript_plain_text))
