@@ -46,6 +46,13 @@ def summarize_video():
     return redirect(url_for("summarize.index", result=response.choices[0].text))
 
 
+def extract_youtube_video_id(video_url):
+    if "=" in video_url:
+        video_id = (video_url.split('=')[1]).split("&")[0]
+    else:
+        video_id = video_url.split("/")[-1]
+    return video_id
+
 
 def generate_prompt(text):
     return """The following is the video transcript: {}. Summary of the video in one sentence is:""".format(
