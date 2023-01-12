@@ -15,6 +15,10 @@
       <!--<br>-->
       <form action="/api/summarize_video" method="post">
         <input type="text" name="video_url" placeholder="Enter a YouTube Video URL" required />
+          <div>
+            <input type="checkbox" name="big_model" id="big_model" />
+            <label for="big_model">use slow and expensive model</label>
+          </div>
         <input type="submit" value="Generate summary" />
       </form>
       {% if result %}

@@ -39,8 +39,12 @@ def summarize_video():
         #response = transcript_plain_text
 
         #for capabilities and pricing see https://beta.openai.com/docs/models/gpt-3
-        #model = "text-davinci-003"
-        model = "text-curie-001"
+        if request.form.get('big_model'):
+            model = "text-davinci-003"
+
+        else:
+            model = "text-curie-001"
+        logging.debug("using model: {}".format(model))
 
         response = openai.Completion.create(
             model=model,
