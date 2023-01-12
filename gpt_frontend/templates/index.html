@@ -1,21 +1,31 @@
 <!DOCTYPE html>
-<head>
-  <title>OpenAI Quickstart</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
-</head>
+<html>
+    <meta charset="utf-8" />
+    <head>
+      <title>OpenAI Quickstart</title>
+      <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+    </head>
 
-<body>
-  <h3>Summarize a YouTube video</h3>
-  <!--<form action="/api/summarize_text" method="post">-->
-    <!--<input type="text" name="text" placeholder="Enter a text" required />-->
-    <!--<input type="submit" value="Generate summary" />-->
-  <!--</form>-->
-  <!--<br>-->
-  <form action="/api/summarize_video" method="post">
-    <input type="text" name="video_url" placeholder="Enter a YouTube Video URL" required />
-    <input type="submit" value="Generate summary" />
-  </form>
-  {% if result %}
-  <div class="result">{{ result }}</div>
-  {% endif %}
-</body>
+    <body>
+      <h3>Summarize a YouTube video</h3>
+      <!--<form action="/api/summarize_text" method="post">-->
+        <!--<input type="text" name="text" placeholder="Enter a text" required />-->
+        <!--<input type="submit" value="Generate summary" />-->
+      <!--</form>-->
+      <!--<br>-->
+      <form action="/api/summarize_video" method="post">
+        <input type="text" name="video_url" placeholder="Enter a YouTube Video URL" required />
+        <input type="submit" value="Generate summary" />
+      </form>
+      {% if result %}
+      <h4>Video URL</h4>
+      <div class="result">{{ url }}</div>
+      <h4>Video Summary</h4>
+      <div class="result">{{ result }}</div>
+      {% endif %}
+      {% if error_message %}
+      <h4>{{ error_heading }}</h4>
+      <div class="result">{{ error_message }}</div>
+      {% endif %}
+    </body>
+</html>
