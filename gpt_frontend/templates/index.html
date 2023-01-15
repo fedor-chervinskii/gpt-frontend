@@ -21,11 +21,13 @@
           </div>
         <input type="submit" value="Generate summary" />
       </form>
-      {% if result %}
+      {% if results %}
       <h4>Video URL</h4>
       <div class="result">{{ url }}</div>
       <h4>Video Summary</h4>
-      <div class="result">{{ result }}</div>
+      {% for key, result in results.items() %}
+        <div class="result">{{ result }}</div>
+      {% endfor %}
       {% endif %}
       {% if error_message %}
       <h4>{{ error_heading }}</h4>
