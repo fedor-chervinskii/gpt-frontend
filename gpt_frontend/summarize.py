@@ -64,6 +64,12 @@ def summarize_video():
                                 error_heading="Sorry, the video is too long...",
                                 error_message=str(error)))
 
+    except openai.error.RateLimitError as error:
+        logging.debug("received exception: {}".format(error))
+        return redirect(url_for("summarize.index",
+                                error_heading="API Rate Exceeded...",
+                                error_message=str(error)))
+
 
 def text_block_iterator(text, max_words=1500):
     words = text.split()

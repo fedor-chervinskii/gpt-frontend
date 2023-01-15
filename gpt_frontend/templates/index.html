@@ -25,9 +25,11 @@
       <h4>Video URL</h4>
       <div class="result">{{ url }}</div>
       <h4>Video Summary</h4>
+      <ul>
       {% for key, result in results.items() %}
-        <div class="result">{{ result }}</div>
+        <li class="result">{{ result }}</li>
       {% endfor %}
+      </ul>
       {% endif %}
       {% if error_message %}
       <h4>{{ error_heading }}</h4>
