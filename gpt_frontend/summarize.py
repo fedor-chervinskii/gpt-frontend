@@ -11,6 +11,10 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 logging.basicConfig(level=logging.DEBUG)
 
 
+MAX_WORDS_IN_VIDEO = 50000
+MAX_WORDS_TO_USE_BIG_MODEL = 20000
+
+
 @bp.route('/')
 def index():
     return render_template("index.html", **request.args)
@@ -28,15 +32,25 @@ def summarize_video():
         #for capabilities and pricing see https://beta.openai.com/docs/models/gpt-3
         if request.form.get('big_model'):
             model = "text-davinci-003"
+            max_words = 2000
 
         else:
             model = "text-curie-001"
+            max_words = 1000
 
         logging.debug("using model: {}".format(model))
 
         results = {}
 
-        for idx, block in enumerate(text_block_iterator(transcript_plain_text, max_words=1000)):
+        if len(transcript_plain_text.split()) > MAX_WORDS_IN_VIDEO:
+            raise ValueError("The video is too long to process, sorry...")
+
+        if (len(transcript_plain_text.split()) > MAX_WORDS_TO_USE_BIG_MODEL and
+            model == "text-davinci-003"):
+            raise ValueError("""The video is too long to process with big model, sorry!
+            Please try without using the slow and expensive model...""")
+
+        for idx, block in enumerate(text_block_iterator(transcript_plain_text, max_words=max_words)):
             response = openai.Completion.create(
                 model=model,
                 prompt=generate_prompt(block),
@@ -49,6 +63,14 @@ def summarize_video():
         return render_template("index.html",
                                 url=str(video_url),
                                 results=results)
+
+    except ValueError as error:
+        logging.debug("received exception: {}".format(error))
+        return redirect(url_for(
+            "summarize.index",
+            error_heading="There is a problem with the video",
+            error_message=str(error)
+        ))
 
     except TranscriptsDisabled as error:
         logging.debug("received exception: {}".format(error))
