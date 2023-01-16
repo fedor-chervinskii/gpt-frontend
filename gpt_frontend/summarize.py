@@ -1,4 +1,4 @@
-import os
+import os, time
 import logging
 import openai
 from flask import Blueprint, redirect, render_template, request, url_for, jsonify
@@ -20,7 +20,12 @@ def index():
     return render_template("index.html", **request.args)
 
 
-@bp.route('/api/summarize_video', methods=['POST'])
+@bp.route('/loading', methods=['POST'])
+def loading_model():
+    return render_template("index.html", loading=True)
+
+
+@bp.route('/summarize_video', methods=['POST'])
 def summarize_video():
     video_url = request.form["video_url"]
     try:

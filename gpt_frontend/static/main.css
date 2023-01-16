@@ -71,3 +71,18 @@ h4 {
   margin-top: 0px;
 }
 
+.loader {
+  border: 10px solid #f3f3f3; /* Light grey */
+  border-top: 10px solid #10a37f; /* same as button */
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  margin-top: 20px;
+  display: none;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

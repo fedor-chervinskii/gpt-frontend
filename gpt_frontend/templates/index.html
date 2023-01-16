@@ -13,14 +13,15 @@
         <!--<input type="submit" value="Generate summary" />-->
       <!--</form>-->
       <!--<br>-->
-      <form action="/api/summarize_video" method="post">
+      <form action="/summarize_video" method="post">
         <input type="text" name="video_url" placeholder="Enter a YouTube Video URL" required />
           <div>
             <input type="checkbox" name="big_model" id="big_model" />
             <label for="big_model">use slow and expensive model</label>
           </div>
-        <input type="submit" value="Generate summary" />
+        <input type="submit" value="Generate summary" onclick="loading();"/>
       </form>
+      <div class="loader" id="loading"></div>
       {% if results %}
       <h4>Video URL</h4>
       <div class="result">{{ url }}</div>
@@ -36,4 +37,11 @@
       <div class="result">{{ error_message }}</div>
       {% endif %}
     </body>
+<script type="text/javascript">
+    // <![CDATA[
+        function loading(){
+            document.getElementById("loading").style.display = "block";
+        }
+    // ]]>
+</script>
 </html>
