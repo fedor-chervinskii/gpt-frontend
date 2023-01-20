@@ -25,9 +25,11 @@
       </form>
       <div class="loader" id="loading"></div>
       {% if results %}
-      <h4>Video URL</h4>
-      <div class="result">{{ url }}</div>
-      <h4>Video Summary</h4>
+<!--      <h4>Video URL</h4>-->
+<!--      <div class="result">{{ url }}</div>-->
+      <h4>Summary of <a href="{{ url }}">{{ video_title }}</a></h4>
+      <img src="{{ thumbnail_url }}" alt="video thumbnail" height="240px">
+<!--      <h4>Video Summary</h4>-->
       <ul>
       {% for key, result in results.items() %}
         <li class="result">{{ result }}</li>

@@ -4,6 +4,8 @@ import openai
 from flask import Blueprint, redirect, render_template, request, url_for, jsonify
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api._errors import TranscriptsDisabled
+from gpt_frontend.youtube_api import get_video_details
+
 
 bp = Blueprint('summarize', __name__, url_prefix='/')
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -30,6 +32,7 @@ def summarize_video():
     video_url = request.form["video_url"]
     try:
         video_id = extract_youtube_video_id(video_url)
+        video_title, thumbnail_url = get_video_details(video_id)
         transcript = YouTubeTranscriptApi.get_transcript(video_id)
         transcript_plain_text = " ".join(item["text"] for item in transcript)
         logging.debug("received transcript: {}".format(transcript_plain_text))
@@ -66,8 +69,10 @@ def summarize_video():
             results[idx] = str(response.choices[0].text)
 
         return render_template("index.html",
-                                url=str(video_url),
-                                results=results)
+                               url=str(video_url),
+                               video_title=video_title,
+                               thumbnail_url=thumbnail_url,
+                               results=results)
 
     except ValueError as error:
         logging.debug("received exception: {}".format(error))
